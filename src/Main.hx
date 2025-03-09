@@ -19,6 +19,7 @@ class Main{
 	static final df_name:Element = Browser.document.getElementById("df_name");
 	static final df_ave:Element = Browser.document.getElementById("df_ave");
 	static final df_med:Element = Browser.document.getElementById("df_med");
+	static final df_level:Element = Browser.document.getElementById("df_level");
 	static final deraforce_only:InputElement = cast Browser.document.getElementById("deraforce_only");
 	static final diff_select:Array<InputElement> = cast Browser.document.getElementsByName("diff_select");
 	static final scoreTable:ScoreTable = {
@@ -205,6 +206,7 @@ class Main{
 		df_ave.innerText=dfData.average.toFixed(3);
 		df_med.innerText=dfData.median.toFixed(3);
 		df_name.innerText=(dfData.name!="")?'[${dfData.name}]':"";
+		df_level.innerText=(sortOption.level==0)?"":'☆${sortOption.level}楽曲のみの';
 	}
 
 	public static function updateScoreData(text:String){
