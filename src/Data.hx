@@ -1,27 +1,9 @@
-import js.Syntax;
-
 class Data{
 	public static inline function calcScoreRate(score:Int, noteCount:Int):Float
 		return Math.ffloor(score/(noteCount*2)*100 * 100)*0.01;
 
 	public static inline function calcDeraforce(scoreRate:Float, diffFact:Float, gradeFact:Float, lampFact:Float):Float
 		return Math.ffloor(diffFact * (scoreRate*0.001) * gradeFact * lampFact * 20 * 10)*0.1;
-
-	public static function median(array:Array<Float>):Float{
-		if(array.length==0) return 0;
-		final data=array.copy();
-		data.sort(function(a,b){
-			return cast (a-b)*1000;
-		});
-		final center:Int = Math.floor(data.length/2);
-		if(data.length%2==0){
-			final a = data[center-1];
-			final b = data[center];
-			return (a+b)/2;
-		}else{
-			return data[center];
-		}
-	}
 
 	public static function getDiffFact(level:Int, diff:String):Float{
 		if(!diffFact.exists(level)) return 0;
@@ -51,6 +33,9 @@ class Data{
 		for(name in deraforceList) if(deraforce>=name[0]) return name[1];
 		return "";
 	}
+
+	public static inline function getColumnName(i:Int):String
+		return columnName[i];
 
 	private static final diffFact:Map<Int,Map<String,Float>>=[
 		12=>[
@@ -176,8 +161,21 @@ class Data{
 		[16.25,"Coral Ⅱ"],
 		[16,"Coral Ⅰ"],
 	];
-
-	public static inline function toFixed(num:Float, digit:Int):String{
-		return Syntax.code("{0}.toFixed({1})",num,digit);
-	}
+	
+	private static final columnName:Array<String> = [
+		"順位",
+		"曲名",
+		"DERAFORCE",
+		"難易度",
+		"レベル",
+		"ノーツ数",
+		"スコア",
+		"スコアレート",
+		"グレード",
+		"クリアランプ",
+		"ハード難易度",
+		"難易度係数",
+		"グレード係数",
+		"ランプ係数"
+	];
 }

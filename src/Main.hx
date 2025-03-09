@@ -8,26 +8,11 @@ import haxe.Json;
 import js.Browser;
 import js.html.Element;
 
+using Util;
 
 class Main{
 	static final SAVE_KEY:String = "scoreData";
 	static final DIFF_ARRAY:Array<String> = ["SPB","SPN","SPH","SPA","SPL"];
-	static final COLUMN_NAME:Array<String> = [
-		"順位",
-		"曲名",
-		"DERAFORCE",
-		"難易度",
-		"レベル",
-		"ノーツ数",
-		"スコア",
-		"スコアレート",
-		"グレード",
-		"クリアランプ",
-		"ハード難易度",
-		"難易度係数",
-		"グレード係数",
-		"ランプ係数"
-	];
 	static final tableElem:Element = Browser.document.getElementById("deraforce");
 	static final tableHeader:Element = Browser.document.getElementById("tableHeader");
 	static final df_val:Element = Browser.document.getElementById("df_val");
@@ -49,7 +34,7 @@ class Main{
 	};
 	static final sortOption:SortOption = {
 		column: 0,
-		ascending: false,
+		ascending: true,
 	}
 
 	static var loading:Bool = true;
@@ -91,9 +76,8 @@ class Main{
 	static function setSortButton(){
 		final tr:TableRowElement = Browser.document.createTableRowElement();
 		tableHeader.appendChild(tr);
-		for(i in 0...COLUMN_NAME.length){
+		for(i in 0...cast ViewColumn.MAX){
 			final td:TableCellElement = Browser.document.createTableCellElement();
-			td.innerText=COLUMN_NAME[i];
 			td.onclick = function(){
 				if(sortOption.column==i){
 					sortOption.ascending=!sortOption.ascending;
@@ -112,7 +96,7 @@ class Main{
 	static function renameSortButton(){
 		for(i in 0...headerColumn.length){
 			final td = headerColumn[i];
-			td.innerText=COLUMN_NAME[i];
+			td.innerText=Data.getColumnName(i);
 			if(sortOption.column==i){
 				td.innerText+=sortOption.ascending?"▲":"▼";
 			}else{
@@ -193,9 +177,9 @@ class Main{
 				tr.appendChild(td);
 			}
 		}
-		df_val.innerText=Data.toFixed(dfData.deraforce,3);
-		df_ave.innerText=Data.toFixed(dfData.average,3);
-		df_med.innerText=Data.toFixed(dfData.median,3);
+		df_val.innerText=dfData.deraforce.toFixed(3);
+		df_ave.innerText=dfData.average.toFixed(3);
+		df_med.innerText=dfData.median.toFixed(3);
 		df_name.innerText=(dfData.name!="")?'[${dfData.name}]':"";
 	}
 
@@ -353,7 +337,7 @@ class Main{
 		}
 		dfData.average = dfSum/50;
 		dfData.deraforce = dfSum/100;
-		dfData.median = Data.median(dfArray);
+		dfData.median = dfArray.median();
 		dfData.name = Data.getDeraforce(dfData.deraforce);
 		viewColumn=viewDataToArray(viewData);
 	}
@@ -377,7 +361,7 @@ class Main{
 						if(data.difficulty=="SPL") tData.style="color: #FF00FF;";
 						if(data.difficulty=="SPH") tData.style="color: #CCAD51;";
 					case Deraforce:
-						tData.text=Data.toFixed(data.deraforce,1);
+						tData.text=data.deraforce.toFixed(1);
 						tData.sortValue=data.deraforce;
 					case Difficulty:
 						tData.text=data.difficulty;
@@ -395,7 +379,7 @@ class Main{
 						tData.text=Std.string(data.score);
 						tData.sortValue=data.score;
 					case ScoreRate:
-						tData.text=Data.toFixed(data.scoreRate,2);
+						tData.text=data.scoreRate.toFixed(2);
 						tData.sortValue=data.scoreRate;
 					case Grade:
 						tData.text=data.grade;
@@ -407,13 +391,13 @@ class Main{
 						tData.text=data.hardDifficulty;
 						tData.sortValue=data.hardDifficulty;
 					case DiffFact:
-						tData.text=Data.toFixed(data.diffFact,1);
+						tData.text=data.diffFact.toFixed(1);
 						tData.sortValue=data.diffFact;
 					case GradeFact:
-						tData.text=Data.toFixed(data.gradeFact,2);
+						tData.text=data.gradeFact.toFixed(2);
 						tData.sortValue=data.gradeFact;
 					case LampFact:
-						tData.text=Data.toFixed(data.lampFact,2);
+						tData.text=data.lampFact.toFixed(2);
 						tData.sortValue=data.lampFact;
 					default:
 				}
