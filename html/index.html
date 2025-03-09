@@ -1,46 +1,55 @@
-<htmnl>
-	<header>
+<html>
+	<head>
 		<meta charset="UTF-8">
 		<title>DERAFORCE</title>
 		<link href="table.css" rel="stylesheet"/>
-	</header>
+	</head>
 	<body>
-		<div id="title">DERAFORCE</div>
-		<div id="csv_area">
-			<button onclick="Main.openCsvArea();">スコアデータのインポート</button>
-			<button onclick="Main.clearData();">スコアデータの削除</button>
-		</div>
-		<div id="csv_area_import" hidden>
-			<button onclick="Main.openCsvArea();">閉じる</button><br>
-			<label for="csv_text">スコアデータのcsvを以下のボックスに貼り付けてください</label>
-			<button onclick="Main.textAreaImport();">インポート</button>
-			<br>
-			<textarea id="csv_text" class="csvArea" autocomplete="off"></textarea>
-			<br>
-			<button onclick="Main.csvImport();">csvファイルからインポート</button>
-		</div>
-		<div>
-			あなたの<span id="df_level"></span>DERAFORCEは<span id="df_val">0.000</span><span id="df_name"></span>です<br>
-			(平均値:<span id="df_ave">0.000</span>,中央値:<span id="df_med">0.000</span>)
-		</div>
-		<br>
-		<div>
-			<div>
-				<input type="checkbox" id="deraforce_only" name="deraforce_only">
-				<label for="deraforce_only">DERAFORCE対象曲のみ表示</label>
-
-				<input type="radio" id="diff_all" name="diff_select" checked>
-				<label for="diff_all">全曲</label>
-				<input type="radio" id="diff_12" name="diff_select">
-				<label for="diff_12">☆12のみ</label>
-				<input type="radio" id="diff_11" name="diff_select">
-				<label for="diff_11">☆11のみ</label>
+		<div class="main">
+			<div class="title">DERAFORCE</div>
+			<div id="csv_area">
+				<button onclick="Main.openCsvArea();">スコアデータのインポート</button>
+				<button onclick="Main.clearData();">スコアデータの削除</button>
 			</div>
-			<table class="tablestyle">
-				<thead id="tableHeader"></thead>
-				<tbody id="deraforce"></tbody>
-			</table>
+			<div id="csv_area_import" hidden>
+				<button onclick="Main.openCsvArea();">閉じる</button><br>
+				<label for="csv_text">スコアデータのcsvを以下のボックスに貼り付けてください</label>
+				<button onclick="Main.textAreaImport();">インポート</button>
+				<br>
+				<textarea id="csv_text" class="csvArea" autocomplete="off"></textarea>
+				<br>
+				<button onclick="Main.csvImport();">csvファイルからインポート</button>
+			</div>
+			<div>
+				あなたの<span id="df_level"></span>DERAFORCEは<span id="df_val">0.000</span><span id="df_name"></span>です<br>
+				(平均値:<span id="df_ave">0.000</span>,中央値:<span id="df_med">0.000</span>)
+			</div>
+			<br>
+			<div class="tableBlock">
+				<div>
+					<input type="checkbox" id="deraforce_only" name="deraforce_only">
+					<label for="deraforce_only">DERAFORCE対象曲のみ表示</label>
+	
+					<input type="radio" id="diff_all" name="diff_select" checked>
+					<label for="diff_all">全曲</label>
+					<input type="radio" id="diff_12" name="diff_select">
+					<label for="diff_12">☆12のみ</label>
+					<input type="radio" id="diff_11" name="diff_select">
+					<label for="diff_11">☆11のみ</label>
+				</div>
+				<table class="tablestyle">
+					<thead id="tableHeader"></thead>
+					<tbody id="deraforce"></tbody>
+				</table>
+			</div>
 		</div>
+		<footer>
+			<div class="footer_text">
+				<span>
+					本ツールで使用している楽曲データは<a href="https://w.atwiki.jp/bemani2sp11/">beatmania IIDX SP☆11 難易度表保管所(仮)</a>様の<a href="https://w.atwiki.jp/bemani2sp11/pages/18.html">☆12 (ハード難易度表)</a>の情報を使用しています
+				</span>
+			</div>
+		</footer>
 	</body>
 	<script src="main.js"></script>
-</htmnl>
+</html>
