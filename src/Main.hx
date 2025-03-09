@@ -358,7 +358,8 @@ class Main{
 			if(i<50){
 				dfSum+=cData[i].deraforce;
 				dfArray.push(cData[i].deraforce);
-			}else if(sortOption.deraforceOnly){
+			}
+			if(sortOption.deraforceOnly && (cData[i].rank>50 || cData[i].rank==0)){
 				viewData.remove(cData[i]);
 			}
 		}
