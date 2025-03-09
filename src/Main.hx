@@ -306,6 +306,7 @@ class Main{
 		}
 		setupDate();
 		setTable();
+		Browser.alert("スコアデータの読み込みが完了しました");
 	}
 
 	static function setupDate(){
