@@ -15,7 +15,19 @@
 			あなたのDERAFORCEは<span id="df_val">0.000</span><span id="df_name"></span>です<br>
 			(平均値:<span id="df_ave">0.000</span>,中央値:<span id="df_med">0.000</span>)
 		</div>
+		<br>
 		<div>
+			<div>
+				<input type="checkbox" id="deraforce_only" name="deraforce_only">
+				<label for="deraforce_only">DERAFORCE対象曲のみ表示</label>
+
+				<input type="radio" id="diff_all" name="diff_select" checked>
+				<label for="diff_all">全曲</label>
+				<input type="radio" id="diff_12" name="diff_select">
+				<label for="diff_12">☆12のみ</label>
+				<input type="radio" id="diff_11" name="diff_select">
+				<label for="diff_11">☆11のみ</label>
+			</div>
 			<table class="tablestyle">
 				<thead id="tableHeader"></thead>
 				<tbody id="deraforce"></tbody>

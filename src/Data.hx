@@ -37,6 +37,9 @@ class Data{
 	public static inline function getColumnName(i:Int):String
 		return columnName[i];
 
+	public static inline function getInputDifficulties(i:Int):Int
+		return inputDifficulties[i];
+
 	private static final diffFact:Map<Int,Map<String,Float>>=[
 		12=>[
 			"地力S+"=>20,
@@ -177,5 +180,9 @@ class Data{
 		"難易度係数",
 		"グレード係数",
 		"ランプ係数"
+	];
+
+	private static final inputDifficulties:Array<Int>=[
+		0,12,11
 	];
 }

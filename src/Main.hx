@@ -19,6 +19,8 @@ class Main{
 	static final df_name:Element = Browser.document.getElementById("df_name");
 	static final df_ave:Element = Browser.document.getElementById("df_ave");
 	static final df_med:Element = Browser.document.getElementById("df_med");
+	static final deraforce_only:InputElement = cast Browser.document.getElementById("deraforce_only");
+	static final diff_select:Array<InputElement> = cast Browser.document.getElementsByName("diff_select");
 	static final scoreTable:ScoreTable = {
 		update: 0,
 		data:[],
@@ -35,11 +37,14 @@ class Main{
 	static final sortOption:SortOption = {
 		column: 0,
 		ascending: true,
+		deraforceOnly: false,
+		level: 0,
 	}
 
 	static var loading:Bool = true;
 	public static function main(){
 		setSortButton();
+		setInput();
 		load();
 	}
 
@@ -71,6 +76,25 @@ class Main{
 				Browser.alert("曲データの読み込みに失敗しました");
 			}
 		);
+	}
+
+	static function setInput(){
+		deraforce_only.checked=sortOption.deraforceOnly;
+		deraforce_only.onchange=function(){
+			sortOption.deraforceOnly=deraforce_only.checked;
+			setupDate();
+			setTable();
+		}
+		for(i in 0...diff_select.length){
+			final input = diff_select[i];
+			input.onclick = function(){
+				if(sortOption.level!=Data.getInputDifficulties(i)){
+					sortOption.level=Data.getInputDifficulties(i);
+					setupDate();
+					setTable();
+				}
+			}
+		}
 	}
 
 	static function setSortButton(){
@@ -288,6 +312,7 @@ class Main{
 		if(loading) return;
 		final viewData:Array<ViewData>=[];
 		for(baseData in dataTable){
+			if(sortOption.level!=0 && baseData.level!=sortOption.level) continue;
 			final dat:ViewData={
 				rank: 0,
 				title: baseData.title,
@@ -333,6 +358,8 @@ class Main{
 			if(i<50){
 				dfSum+=cData[i].deraforce;
 				dfArray.push(cData[i].deraforce);
+			}else if(sortOption.deraforceOnly){
+				viewData.remove(cData[i]);
 			}
 		}
 		dfData.average = dfSum/50;
@@ -468,6 +495,8 @@ typedef DeraforceData = {
 typedef SortOption = {
 	var column:Int;
 	var ascending:Bool;//true=昇順、false=降順
+	var deraforceOnly:Bool;//true=DERAFORCE対象曲のみ
+	var level:Int;//ここに入れたレベルのみ表示(0=すべて)
 }
 
 enum abstract ViewColumn(Int) {
