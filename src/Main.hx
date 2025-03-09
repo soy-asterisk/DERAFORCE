@@ -1,5 +1,5 @@
+import js.html.TableRowElement;
 import js.html.TableCellElement;
-import js.html.HtmlElement;
 import js.Syntax;
 import js.html.Response;
 import js.html.FileReader;
@@ -7,10 +7,29 @@ import js.html.InputElement;
 import haxe.Json;
 import js.Browser;
 import js.html.Element;
+
+
 class Main{
 	static final SAVE_KEY:String = "scoreData";
 	static final DIFF_ARRAY:Array<String> = ["SPB","SPN","SPH","SPA","SPL"];
+	static final COLUMN_NAME:Array<String> = [
+		"順位",
+		"曲名",
+		"DERAFORCE",
+		"難易度",
+		"レベル",
+		"ノーツ数",
+		"スコア",
+		"スコアレート",
+		"グレード",
+		"クリアランプ",
+		"ハード難易度",
+		"難易度係数",
+		"グレード係数",
+		"ランプ係数"
+	];
 	static final tableElem:Element = Browser.document.getElementById("deraforce");
+	static final tableHeader:Element = Browser.document.getElementById("tableHeader");
 	static final df_val:Element = Browser.document.getElementById("df_val");
 	static final df_name:Element = Browser.document.getElementById("df_name");
 	static final df_ave:Element = Browser.document.getElementById("df_ave");
@@ -21,14 +40,21 @@ class Main{
 	};
 	static final dataTable:Array<SongData>=[];
 	static var viewColumn:Array<Array<TableData>>=[];
+	static final headerColumn:Array<TableCellElement>=[];
 	static final dfData:DeraforceData = {
 		deraforce: 0,
 		median: 0,
 		average: 0,
 		name: "",
 	};
+	static final sortOption:SortOption = {
+		column: 0,
+		ascending: false,
+	}
+
 	static var loading:Bool = true;
 	public static function main(){
+		setSortButton();
 		load();
 	}
 
@@ -62,8 +88,40 @@ class Main{
 		);
 	}
 
+	static function setSortButton(){
+		final tr:TableRowElement = Browser.document.createTableRowElement();
+		tableHeader.appendChild(tr);
+		for(i in 0...COLUMN_NAME.length){
+			final td:TableCellElement = Browser.document.createTableCellElement();
+			td.innerText=COLUMN_NAME[i];
+			td.onclick = function(){
+				if(sortOption.column==i){
+					sortOption.ascending=!sortOption.ascending;
+				}else{
+					sortOption.column=i;
+				}
+				renameSortButton();
+				setTable();
+			}
+			headerColumn.push(td);
+			tr.appendChild(td);
+		}
+		renameSortButton();
+	}
+
+	static function renameSortButton(){
+		for(i in 0...headerColumn.length){
+			final td = headerColumn[i];
+			td.innerText=COLUMN_NAME[i];
+			if(sortOption.column==i){
+				td.innerText+=sortOption.ascending?"▲":"▼";
+			}else{
+				td.innerText+="　";
+			}
+		}
+	}
+
 	@:expose public static function clearData(){
-		//if(loading) return;
 		scoreTable.update=0;
 		scoreTable.data=[];
 		setupDate();
@@ -110,10 +168,21 @@ class Main{
 			tableElem.removeChild(tableElem.firstChild);
 		}
 		final data:Array<Array<TableData>> = viewColumn.copy();
-		data.sort(function(a,b){
-			return Syntax.code("{0}<{1}",
-			a[cast Deraforce].sortValue,b[cast Deraforce].sortValue)?1:-1;
-		});
+		if(sortOption.ascending){
+			data.sort(function(a,b){
+				if(a[sortOption.column].text=="") return 1;
+				if(b[sortOption.column].text=="") return -1;
+				return Syntax.code("{0}>{1}",
+				a[sortOption.column].sortValue,b[sortOption.column].sortValue)?1:-1;
+			});
+		}else{
+			data.sort(function(a,b){
+				if(a[sortOption.column].text=="") return 1;
+				if(b[sortOption.column].text=="") return -1;
+				return Syntax.code("{0}<{1}",
+				a[sortOption.column].sortValue,b[sortOption.column].sortValue)?1:-1;
+			});
+		}
 		for(dat in data){
 			final tr = Browser.document.createElement("tr");
 			tableElem.appendChild(tr);
@@ -410,6 +479,11 @@ typedef DeraforceData = {
 	public var median:Float;
 	public var average:Float;
 	public var name:String;
+}
+
+typedef SortOption = {
+	var column:Int;
+	var ascending:Bool;//true=昇順、false=降順
 }
 
 enum abstract ViewColumn(Int) {
