@@ -1,0 +1,44 @@
+<htmnl>
+	<header>
+		<meta charset="UTF-8">
+		<title>DERAFORCE</title>
+		<link href="table.css" rel="stylesheet"/>
+	</header>
+	<body>
+		<div id="title">DERAFORCE</div>
+		<div>
+			<button onclick="Main.csvImport();">csvからスコアをインポート</button>
+			<button onclick="Main.clipboardImport();">クリップボードからスコアをインポート</button>
+			<button onclick="Main.clearData();">スコアデータの削除</button>
+		</div>
+		<div>
+			あなたのDERAFORCEは<span id="df_val">0.000</span><span id="df_name"></span>です<br>
+			(平均値:<span id="df_ave">0.000</span>,中央値:<span id="df_med">0.000</span>)
+		</div>
+		<div>
+			<table class="tablestyle">
+				<thead>
+					<tr>
+						<td>順位</td>
+						<td>曲名</td>
+						<td>DERAFORCE</td>
+						<td>難易度</td>
+						<td>レベル</td>
+						<td>ノーツ数</td>
+						<td>スコア</td>
+						<td>スコアレート</td>
+						<td>グレード</td>
+						<td>クリアランプ</td>
+						<td>ハード難易度</td>
+						<td>難易度係数</td>
+						<td>グレード係数</td>
+						<td>ランプ係数</td>
+					</tr>
+				</thead>
+				<tbody id="deraforce">
+				</tbody>
+			</table>
+		</div>
+	</body>
+	<script src="main.js"></script>
+</htmnl>

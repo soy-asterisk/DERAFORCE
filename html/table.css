@@ -1,0 +1,10 @@
+.tablestyle th,.tablestyle td{
+	border: 1px solid #000;
+}
+.tablestyle thead{
+	background-color: darkcyan;
+	color: white;
+}
+.tablestyle{
+	border-collapse: collapse;
+}
