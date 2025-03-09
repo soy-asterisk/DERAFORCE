@@ -6,10 +6,18 @@
 	</header>
 	<body>
 		<div id="title">DERAFORCE</div>
-		<div>
-			<button onclick="Main.csvImport();">csvからスコアをインポート</button>
-			<button onclick="Main.clipboardImport();">クリップボードからスコアをインポート</button>
+		<div id="csv_area">
+			<button onclick="Main.openCsvArea();">スコアデータのインポート</button>
 			<button onclick="Main.clearData();">スコアデータの削除</button>
+		</div>
+		<div id="csv_area_import" hidden>
+			<button onclick="Main.openCsvArea();">閉じる</button><br>
+			<label for="csv_text">スコアデータのcsvを以下のボックスに貼り付けてください</label>
+			<button onclick="Main.textAreaImport();">インポート</button>
+			<br>
+			<textarea id="csv_text" class="csvArea" autocomplete="off"></textarea>
+			<br>
+			<button onclick="Main.csvImport();">csvファイルからインポート</button>
 		</div>
 		<div>
 			あなたの<span id="df_level"></span>DERAFORCEは<span id="df_val">0.000</span><span id="df_name"></span>です<br>

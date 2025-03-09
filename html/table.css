@@ -8,3 +8,9 @@
 .tablestyle{
 	border-collapse: collapse;
 }
+
+.csvArea {
+	width: 500px;
+	height: 100px;
+	resize: none;
+}

@@ -1,3 +1,4 @@
+import js.html.TextAreaElement;
 import js.html.TableRowElement;
 import js.html.TableCellElement;
 import js.Syntax;
@@ -13,6 +14,9 @@ using Util;
 class Main{
 	static final SAVE_KEY:String = "scoreData";
 	static final DIFF_ARRAY:Array<String> = ["SPB","SPN","SPH","SPA","SPL"];
+	static final csv_area:Element = Browser.document.getElementById("csv_area");
+	static final csv_area_import:Element = Browser.document.getElementById("csv_area_import");
+	static final csv_text:TextAreaElement = cast Browser.document.getElementById("csv_text");
 	static final tableElem:Element = Browser.document.getElementById("deraforce");
 	static final tableHeader:Element = Browser.document.getElementById("tableHeader");
 	static final df_val:Element = Browser.document.getElementById("df_val");
@@ -140,22 +144,19 @@ class Main{
 		strage.removeItem(SAVE_KEY);
 	}
 
-	@:expose public static function clipboardImport(){
+	@:expose public static function openCsvArea(){
 		if(loading) return;
-		try{
-			final promise = Browser.navigator.clipboard.readText();
-			promise.then(function(text:String){
-				updateScoreData(text);
-			},function(e:Dynamic){
-				Browser.alert("クリップボードからデータを取得できませんでした。\nブラウザの権限を確認してください。");
-			});
-		}catch(e:Dynamic){
-			Browser.alert("クリップボードからデータが取れない環境の為、失敗しました。");
-		}
+		csv_area.hidden=!csv_area.hidden;
+		csv_area_import.hidden=!csv_area.hidden;
+	}
+
+	@:expose public static function textAreaImport(){
+		if(loading || csv_area_import.hidden) return;
+		updateScoreData(csv_text.value);
 	}
 
 	@:expose public static function csvImport(){
-		if(loading) return;
+		if(loading || csv_area_import.hidden) return;
 		final input:InputElement = cast Browser.document.createElement("input");
 		input.type="file";
 		input.accept="text/csv";
