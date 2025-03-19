@@ -1,0 +1,25 @@
+name: ビルド
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+        
+      - name: Haxeのセットアップ
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.3.6
+        
+      - name: ビルド
+        run: haxe build_linux.hxml
+        
+      - name: アーティファクト作成
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: export/
